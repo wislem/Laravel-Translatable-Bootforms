@@ -404,7 +404,13 @@ class TranslatableBootForm
             }
         }
 
-        return str_replace(['%name', '%locale'], [$this->arguments()['name'], $currentLocale], $parameter);
+        $replacements = ['locale' => $currentLocale];
+        
+        if ($name = array_get($this->arguments(), 'name')) {
+            array_set($replacements, 'name', $name);
+        }
+ 
+        return str_replace(array_keys($replacements), array_values($replacements), $parameter);
     }
 
     /**
